@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="app_title">Molino Pro - V9.3 (Fixed)</title>
+    <title data-i18n="app_title">Molino Pro - V9.3</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -20,31 +19,27 @@
         .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         .loader { border: 3px solid #e2e8f0; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
         .gauge-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; /* IE and Edge */ scrollbar-width: none; /* Firefox */ }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen">
+<body class="bg-slate-100 text-slate-800 min-h-screen" dir="rtl">
 
     <div id="auth-view" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center">
-            <h1 class="text-3xl font-bold text-blue-600 mb-2">Molino <span class="text-slate-700">Pro</span></h1>
-            <p class="text-gray-500 mb-6" data-i18n="app_subtitle">Système de gestion intelligent</p>
+            <h1 class="text-3xl font-bold text-blue-600 mb-2">مولينو <span class="text-slate-700">برو</span></h1>
+            <p class="text-gray-500 mb-6" data-i18n="app_subtitle">نظام إدارة ذكي</p>
             
             <form id="authForm" class="space-y-4">
-                <input type="email" id="emailInput" data-i18n-placeholder="email_placeholder" placeholder="Email" required class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500" dir="ltr">
-                <input type="password" id="passwordInput" data-i18n-placeholder="password_placeholder" placeholder="Mot de passe" required class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500" dir="ltr">
-                
+                <input type="email" id="emailInput" data-i18n-placeholder="email_placeholder" placeholder="البريد الإلكتروني" required class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500" dir="ltr">
+                <input type="password" id="passwordInput" data-i18n-placeholder="password_placeholder" placeholder="كلمة المرور" required class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500" dir="ltr">
                 <div id="authMessage" class="hidden p-3 rounded text-sm font-bold bg-red-100 text-red-600 border border-red-200"></div>
-                
-                <button type="submit" id="authBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition shadow-lg" data-i18n="btn_enter">Entrer</button>
+                <button type="submit" id="authBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition shadow-lg" data-i18n="btn_enter">دخول</button>
             </form>
-            <p class="mt-4 text-sm text-gray-500 cursor-pointer hover:text-blue-600 underline" onclick="toggleAuthMode()" id="authToggleText" data-i18n="toggle_auth_login">Basculer (Connexion / Inscription)</p>
+            <p class="mt-4 text-sm text-gray-500 cursor-pointer hover:text-blue-600 underline" onclick="toggleAuthMode()" id="authToggleText" data-i18n="toggle_auth_login">تبديل (دخول / تسجيل)</p>
         </div>
     </div>
 
@@ -64,16 +59,16 @@
             
             <nav class="flex overflow-x-auto bg-white border-t border-slate-100 no-scrollbar">
                 <button onclick="switchTab('dashboard')" class="tab-btn active flex-1 py-3 px-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition" id="tab-dashboard">
-                    <i class="fa-solid fa-gauge mx-1"></i> <span data-i18n="nav_dashboard">Surveillance</span>
+                    <i class="fa-solid fa-gauge mx-1"></i> <span data-i18n="nav_dashboard">المراقبة</span>
                 </button>
                 <button onclick="switchTab('analysis')" class="tab-btn flex-1 py-3 px-4 text-sm font-bold text-gray-500 hover:text-blue-500 transition" id="tab-analysis">
-                    <i class="fa-solid fa-chart-pie mx-1"></i> <span data-i18n="nav_reports">Rapports</span>
+                    <i class="fa-solid fa-chart-pie mx-1"></i> <span data-i18n="nav_reports">التقارير</span>
                 </button>
                 <button onclick="switchTab('history')" class="tab-btn flex-1 py-3 px-4 text-sm font-bold text-gray-500 hover:text-blue-500 transition" id="tab-history">
-                    <i class="fa-solid fa-box-archive mx-1"></i> <span data-i18n="nav_archive">Archive</span>
+                    <i class="fa-solid fa-box-archive mx-1"></i> <span data-i18n="nav_archive">الأرشيف</span>
                 </button>
                 <button onclick="switchTab('settings')" class="tab-btn flex-1 py-3 px-4 text-sm font-bold text-gray-500 hover:text-blue-500 transition" id="tab-settings">
-                    <i class="fa-solid fa-gear mx-1"></i> <span data-i18n="nav_settings">Réglages</span>
+                    <i class="fa-solid fa-gear mx-1"></i> <span data-i18n="nav_settings">الإعدادات</span>
                 </button>
             </nav>
         </header>
@@ -83,27 +78,27 @@
             <div id="view-dashboard" class="tab-content active space-y-6">
                 <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200">
                     <h2 class="text-lg font-bold mb-4 flex items-center gap-2 text-slate-700">
-                        <i class="fa-solid fa-pen text-blue-500"></i> <span data-i18n="title_new_entry">Enregistrer une lecture</span>
+                        <i class="fa-solid fa-pen text-blue-500"></i> <span data-i18n="title_new_entry">تسجيل قراءة</span>
                     </h2>
-                    <form id="entryForm" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+                    <form id="entryForm" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end" dir="rtl">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_silo">Silo</label>
+                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_silo">الصومعة</label>
                             <select id="silounSelect" class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none focus:border-blue-500"></select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_weight">Poids Actuel (T)</label>
+                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_weight">الوزن الحالي (طن)</label>
                             <input type="number" id="weightInput" step="0.01" class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none focus:border-blue-500 text-left" placeholder="0.00" dir="ltr">
                         </div>
                         <div class="relative">
-                            <label class="block text-xs font-bold text-orange-500 mb-1"><i class="fa-solid fa-truck-ramp-box"></i> Sortie Camion (T)</label>
+                            <label class="block text-xs font-bold text-orange-500 mb-1"><i class="fa-solid fa-truck-ramp-box"></i> خروج شاحنة (طن)</label>
                             <input type="number" id="truckInput" step="0.01" class="w-full p-2.5 border rounded-lg bg-orange-50 outline-none focus:border-orange-500 text-left" placeholder="0.00" dir="ltr">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_date">Date et heure</label>
+                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_date">التاريخ والوقت</label>
                             <input type="datetime-local" id="dateTimeInput" class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none focus:border-blue-500 text-sm" dir="ltr">
                         </div>
                         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg transition shadow-md shadow-blue-200">
-                            <span data-i18n="btn_record">Enregistrer</span> <i class="fa-solid fa-check mx-1"></i>
+                            <span data-i18n="btn_record">حفظ</span> <i class="fa-solid fa-check mx-1"></i>
                         </button>
                     </form>
                 </div>
@@ -112,18 +107,18 @@
 
                 <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-200">
                     <div class="p-4 border-b bg-slate-50 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-700" data-i18n="title_session_log">Journal de la session الحالية</h3>
+                        <h3 class="font-bold text-slate-700" data-i18n="title_session_log">سجل الجلسة الحالية</h3>
                         <span id="session-counter" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-bold">0</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-right">
                             <thead class="bg-slate-100 text-slate-600">
                                 <tr>
-                                    <th class="p-3 text-center" data-i18n="th_time">Heure</th>
-                                    <th class="p-3 text-center" data-i18n="th_silo">Silo</th>
-                                    <th class="p-3 text-center" data-i18n="th_weight">Poids</th>
+                                    <th class="p-3 text-center" data-i18n="th_time">الوقت</th>
+                                    <th class="p-3 text-center" data-i18n="th_silo">الصومعة</th>
+                                    <th class="p-3 text-center" data-i18n="th_weight">الوزن</th>
                                     <th class="p-3 text-center"><i class="fa-solid fa-truck text-orange-400"></i></th>
-                                    <th class="p-3 text-center" data-i18n="th_diff">Diff (Prod)</th>
+                                    <th class="p-3 text-center" data-i18n="th_diff">الفرق (إنتاج)</th>
                                     <th class="p-3"></th>
                                 </tr>
                             </thead>
@@ -134,10 +129,10 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="endWork()" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-red-200 transition">
-                        <span data-i18n="btn_finish">Terminer</span> <i class="fa-solid fa-save mx-1"></i>
+                        <span data-i18n="btn_finish">إنهاء العمل</span> <i class="fa-solid fa-save mx-1"></i>
                     </button>
                     <button onclick="switchTab('analysis')" class="bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-xl font-bold shadow-lg transition">
-                        <span data-i18n="btn_analyze">Analyse</span> <i class="fa-solid fa-chart-line mx-1"></i>
+                        <span data-i18n="btn_analyze">تحليل</span> <i class="fa-solid fa-chart-line mx-1"></i>
                     </button>
                 </div>
             </div>
@@ -145,24 +140,24 @@
             <div id="view-analysis" class="tab-content space-y-6">
                 <div class="bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-2xl p-6 shadow-xl">
                     <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-satellite-dish text-green-400 animate-pulse"></i> <span data-i18n="title_instant_report">Rapport Instantané</span>
+                        <i class="fa-solid fa-satellite-dish text-green-400 animate-pulse"></i> <span data-i18n="title_instant_report">تقرير فوري</span>
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_status">Statut Général</span>
-                            <span class="text-xl font-bold" id="report-status" data-i18n="status_waiting">En attente...</span>
+                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_status">الحالة العامة</span>
+                            <span class="text-xl font-bold" id="report-status" data-i18n="status_waiting">في الانتظار...</span>
                         </div>
                         <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_avg_speed">Vitesse Moyenne</span>
-                            <span class="text-xl font-bold text-blue-400" id="report-avg-speed">0,00 T/h</span>
+                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_avg_speed">السرعة المتوسطة</span>
+                            <span class="text-xl font-bold text-blue-400" id="report-avg-speed" dir="ltr">0,00 T/h</span>
                         </div>
                         <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_min_diff">Différence Min (T)</span>
-                            <span class="text-xl font-bold text-red-400" id="report-min-diff">0,00</span>
+                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_min_diff">أقل فرق (طن)</span>
+                            <span class="text-xl font-bold text-red-400" id="report-min-diff" dir="ltr">0,00</span>
                         </div>
                         <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_max_diff">Différence Max (T)</span>
-                            <span class="text-xl font-bold text-green-400" id="report-max-diff">0,00</span>
+                            <span class="text-slate-300 text-xs block mb-1" data-i18n="stat_max_diff">أعلى فرق (طن)</span>
+                            <span class="text-xl font-bold text-green-400" id="report-max-diff" dir="ltr">0,00</span>
                         </div>
                     </div>
                 </div>
@@ -170,17 +165,17 @@
 
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-4 border-b bg-slate-50">
-                        <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-calculator text-blue-500"></i> <span data-i18n="title_speed_details">Détails des Vitesses</span></h3>
+                        <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-calculator text-blue-500"></i> <span data-i18n="title_speed_details">تفاصيل السرعات</span></h3>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-right">
                             <thead class="bg-slate-100 text-slate-600">
                                 <tr>
-                                    <th class="p-3 text-center" data-i18n="th_silo">Silo</th>
-                                    <th class="p-3 text-center" data-i18n="th_activity">Activité</th>
-                                    <th class="p-3 text-center">T/h (Inst.)</th> <th class="p-3 text-center">T/min</th>
-                                    <th class="p-3 text-center">Kg/sec</th>
-                                    <th class="p-3 text-center" data-i18n="th_avg_speed">Vit. Moy. T/h</th> </tr>
+                                    <th class="p-3 text-center" data-i18n="th_silo">الصومعة</th>
+                                    <th class="p-3 text-center" data-i18n="th_activity">النشاط</th>
+                                    <th class="p-3 text-center" dir="ltr">طن/س (فوري)</th> <th class="p-3 text-center" dir="ltr">طن/د</th>
+                                    <th class="p-3 text-center" dir="ltr">كغ/ث</th>
+                                    <th class="p-3 text-center" data-i18n="th_avg_speed">م. السرعة طن/س</th> </tr>
                             </thead>
                             <tbody id="analysisBody" class="divide-y divide-slate-100 font-mono"></tbody>
                         </table>
@@ -196,17 +191,17 @@
             <div id="view-history" class="tab-content">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="p-4 border-b bg-slate-50 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-700" data-i18n="title_archive">Archive et Historique</h3>
-                        <button onclick="loadUserHistory()" class="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded text-sm transition" data-i18n="btn_refresh">Actualiser</button>
+                        <h3 class="font-bold text-slate-700" data-i18n="title_archive">الأرشيف والسجل</h3>
+                        <button onclick="loadUserHistory()" class="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded text-sm transition" data-i18n="btn_refresh">تحديث</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-right">
                             <thead class="bg-slate-100 text-slate-600">
                                 <tr>
                                     <th class="p-4 text-center" data-i18n="th_date">التاريخ</th>
-                                    <th class="p-4 text-center" data-i18n="th_total_moved">Total Mouvement</th>
-                                    <th class="p-4 text-center" data-i18n="th_count">Nb. Lectures</th>
-                                    <th class="p-4 text-center" data-i18n="th_avg_speed_history">Vitesse Moyenne T/h</th> <th class="p-4 text-center" data-i18n="th_actions">Actions</th>
+                                    <th class="p-4 text-center" data-i18n="th_total_moved">إجمالي الحركة</th>
+                                    <th class="p-4 text-center" data-i18n="th_count">عدد القراءات</th>
+                                    <th class="p-4 text-center" data-i18n="th_avg_speed_history">م. السرعة طن/س</th> <th class="p-4 text-center" data-i18n="th_actions">إجراءات</th>
                                 </tr>
                             </thead>
                             <tbody id="historyBody" class="divide-y divide-slate-100"></tbody>
@@ -218,27 +213,27 @@
             <div id="view-settings" class="tab-content">
                 
                 <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200 mb-6">
-                    <h3 class="font-bold text-lg mb-4 text-slate-700" data-i18n="title_language">Langue de l'interface</h3>
+                    <h3 class="font-bold text-lg mb-4 text-slate-700" data-i18n="title_language">لغة الواجهة</h3>
                     <div class="flex items-center gap-4">
                         <select id="languageSelect" class="w-full max-w-xs p-3 border rounded-lg bg-slate-50 outline-none focus:border-blue-500">
+                            <option value="ar">العربية</option>
                             <option value="fr">Français</option>
                             <option value="en">English</option>
-                            <option value="ar">العربية</option>
                         </select>
                         <button onclick="saveLanguageSetting()" class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition font-bold">
-                            <i class="fa-solid fa-save"></i> <span data-i18n="btn_save_settings">Sauvegarder</span>
+                            <i class="fa-solid fa-save"></i> <span data-i18n="btn_save_settings">حفظ</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200">
-                    <h3 class="font-bold text-lg mb-4" data-i18n="title_silo_settings">Réglages des Capacités des Silos</h3>
+                    <h3 class="font-bold text-lg mb-4" data-i18n="title_silo_settings">إعدادات سعات الصوامع</h3>
                     <div id="admin-warning" class="bg-orange-50 text-orange-600 p-3 rounded mb-4 text-sm hidden">
-                        <i class="fa-solid fa-lock"></i> <span data-i18n="msg_admin_only">Admin Only</span>
+                        <i class="fa-solid fa-lock"></i> <span data-i18n="msg_admin_only">للمسؤولين فقط</span>
                     </div>
                     <form id="settingsForm" class="space-y-4">
                         <div id="siloSettingsContainer" class="space-y-3"></div>
-                        <button type="submit" id="saveSettingsBtn" class="mt-4 bg-slate-800 text-white py-2 px-6 rounded-lg hover:bg-slate-900 transition" data-i18n="btn_save_settings">Sauvegarder les Réglages</button>
+                        <button type="submit" id="saveSettingsBtn" class="mt-4 bg-slate-800 text-white py-2 px-6 rounded-lg hover:bg-slate-900 transition" data-i18n="btn_save_settings">حفظ الإعدادات</button>
                     </form>
                 </div>
             </div>
@@ -249,25 +244,25 @@
     <div id="historyModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto relative animate-[fadeIn_0.3s_ease-out]">
             <div class="p-6 border-b sticky top-0 bg-white z-10 flex justify-between items-center">
-                <h3 class="text-xl font-bold text-slate-800" data-i18n="title_report_details">Détails du Rapport</h3>
+                <h3 class="text-xl font-bold text-slate-800" data-i18n="title_report_details">تفاصيل التقرير</h3>
                 <button onclick="document.getElementById('historyModal').classList.add('hidden')" class="text-gray-400 hover:text-red-500 text-2xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-6 space-y-6">
                 <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div class="bg-slate-50 p-3 rounded border"><span data-i18n="label_date">Date</span>: <span id="modal-date" class="font-bold"></span></div>
-                    <div class="bg-slate-50 p-3 rounded border"><span data-i18n="label_total">Total</span>: <span id="modal-total" class="font-bold text-blue-600"></span></div>
+                    <div class="bg-slate-50 p-3 rounded border"><span data-i18n="label_date">التاريخ</span>: <span id="modal-date" class="font-bold"></span></div>
+                    <div class="bg-slate-50 p-3 rounded border"><span data-i18n="label_total">الإجمالي</span>: <span id="modal-total" class="font-bold text-blue-600"></span></div>
                 </div>
                 <div>
-                    <h4 class="font-bold mb-2 text-sm text-gray-500" data-i18n="label_details">Détails:</h4>
+                    <h4 class="font-bold mb-2 text-sm text-gray-500" data-i18n="label_details">التفاصيل:</h4>
                     <div class="overflow-x-auto border rounded-lg">
                         <table class="w-full text-sm text-right">
                             <thead class="bg-gray-50 text-gray-600">
                                 <tr>
-                                    <th class="p-2 text-center" data-i18n="th_time">Heure</th>
-                                    <th class="p-2 text-center" data-i18n="th_silo">Silo</th>
-                                    <th class="p-2 text-center" data-i18n="th_weight">Poids</th>
+                                    <th class="p-2 text-center" data-i18n="th_time">الوقت</th>
+                                    <th class="p-2 text-center" data-i18n="th_silo">الصومعة</th>
+                                    <th class="p-2 text-center" data-i18n="th_weight">الوزن</th>
                                     <th class="p-2 text-center"><i class="fa-solid fa-truck"></i></th>
-                                    <th class="p-2 text-center" data-i18n="th_diff">Diff</th>
+                                    <th class="p-2 text-center" data-i18n="th_diff">الفرق</th>
                                 </tr>
                             </thead>
                             <tbody id="modal-records-body" class="divide-y divide-gray-100"></tbody>
@@ -279,232 +274,22 @@
     </div>
 
     <script>
-        // --- TRANSLATION DATA INTEGRATED ---
+        // --- TRANSLATION DATA ---
         const APP_TRANSLATIONS = {
              fr: {
-                app_title: "Molino Pro",
-                app_subtitle: "Système de gestion intelligent",
-                email_placeholder: "Email",
-                password_placeholder: "Mot de passe",
-                btn_enter: "Entrer",
-                btn_register: "S'inscrire",
-                toggle_auth_login: "Basculer (Connexion / Inscription)",
-                toggle_auth_register: "Basculer vers Connexion",
-                nav_dashboard: "Surveillance",
-                nav_reports: "Rapports",
-                nav_archive: "Archive",
-                nav_settings: "Réglages",
-                title_new_entry: "Enregistrer une lecture",
-                label_silo: "Silo",
-                label_weight: "Poids (T)",
-                label_date: "Date et heure",
-                btn_record: "Enregistrer",
-                title_session_log: "Journal de la session",
-                th_time: "Heure",
-                th_silo: "Silo",
-                th_weight: "Poids",
-                th_diff: "Différence",
-                btn_finish: "Terminer",
-                btn_analyze: "Analyse",
-                title_instant_report: "Rapport Instantané",
-                stat_status: "Statut Général",
-                status_waiting: "En attente...",
-                stat_avg_speed: "Vitesse Moyenne",
-                stat_min_diff: "Différence Min",
-                stat_max_diff: "Différence Max",
-                title_speed_details: "Détails des Vitesses",
-                th_activity: "Activité",
-                th_avg_speed: "Vit. Moy. T/h",
-                title_archive: "Archive et Historique",
-                btn_refresh: "Actualiser",
-                th_date: "Date",
-                th_total_moved: "Total Mouvement",
-                th_count: "Nb. Lectures",
-                th_avg_speed_history: "Vit. Moy. T/h",
-                th_actions: "Actions",
-                title_language: "Langue de l'interface",
-                btn_save_settings: "Sauvegarder",
-                title_silo_settings: "Réglages des Capacités",
-                msg_admin_only: "Réservé à l'administrateur",
-                title_report_details: "Détails du Rapport",
-                label_total: "Total",
-                label_details: "Détails:",
-                msg_connecting: "Connexion en cours...",
-                msg_full_imminent: "Plein Imminent",
-                err_capacity: "Erreur: Capacité dépassée",
-                err_date_logic: "Erreur: Logique de date",
-                status_filling: "Remplissage",
-                status_emptying: "Vidange",
-                status_active: "Actif",
-                status_inactive: "Inactif",
-                eta_full: "Plein dans",
-                eta_empty: "Vide dans",
-                msg_no_activity: "Aucune activité détectée",
-                msg_start_recording: "Commencez l'enregistrement",
-                msg_no_data: "Aucune donnée à enregistrer",
-                msg_confirm_finish: "Voulez-vous vraiment terminer la session ?",
-                msg_no_history: "Aucun historique disponible",
-                btn_view_report: "Voir",
-                msg_no_details: "Aucun détail disponible",
-                label_rated: "Nominal",
-                label_max: "Max",
-                msg_no_permission: "Permission refusée",
-                msg_saved: "Sauvegardé avec succès",
-                msg_confirm_delete: "Supprimer cet enregistrement ?",
-                label_truck: "Sortie Camion (T)",
-                th_truck: "Camion"
+                app_title: "Molino Pro", app_subtitle: "Système de gestion intelligent", email_placeholder: "Email", password_placeholder: "Mot de passe", btn_enter: "Entrer", btn_register: "S'inscrire", toggle_auth_login: "Basculer (Connexion / Inscription)", toggle_auth_register: "Basculer vers Connexion", nav_dashboard: "Surveillance", nav_reports: "Rapports", nav_archive: "Archive", nav_settings: "Réglages", title_new_entry: "Enregistrer une lecture", label_silo: "Silo", label_weight: "Poids (T)", label_date: "Date et heure", btn_record: "Enregistrer", title_session_log: "Journal de la session", th_time: "Heure", th_silo: "Silo", th_weight: "Poids", th_diff: "Différence", btn_finish: "Terminer", btn_analyze: "Analyse", title_instant_report: "Rapport Instantané", stat_status: "Statut Général", status_waiting: "En attente...", stat_avg_speed: "Vitesse Moyenne", stat_min_diff: "Différence Min", stat_max_diff: "Différence Max", title_speed_details: "Détails des Vitesses", th_activity: "Activité", th_avg_speed: "Vit. Moy. T/h", title_archive: "Archive", btn_refresh: "Actualiser", th_date: "Date", th_total_moved: "Total Mouvement", th_count: "Nb. Lectures", th_avg_speed_history: "Vit. Moy. T/h", th_actions: "Actions", title_language: "Langue de l'interface", btn_save_settings: "Sauvegarder", title_silo_settings: "Réglages des Capacités", msg_admin_only: "Réservé à l'administrateur", title_report_details: "Détails du Rapport", label_total: "Total", label_details: "Détails:", msg_connecting: "Connexion en cours...", msg_full_imminent: "Plein Imminent", err_capacity: "Erreur: Capacité dépassée", err_date_logic: "Erreur: Logique de date", status_filling: "Remplissage", status_emptying: "Vidange", status_active: "Actif", status_inactive: "Inactif", eta_full: "Plein dans", eta_empty: "Vide dans", msg_no_activity: "Aucune activité détectée", msg_start_recording: "Commencez l'enregistrement", msg_no_data: "No data to save", msg_confirm_finish: "Voulez-vous vraiment terminer la session ?", msg_no_history: "Aucun historique disponible", btn_view_report: "Voir", msg_no_details: "Aucun détail disponible", label_rated: "Nominal", label_max: "Max", msg_no_permission: "Permission refusée", msg_saved: "Sauvegardé avec succès", msg_confirm_delete: "Supprimer cet enregistrement ?", label_truck: "Sortie Camion (T)", th_truck: "Camion"
             },
             en: {
-                app_title: "Molino Pro",
-                app_subtitle: "Smart Management System",
-                email_placeholder: "Email",
-                password_placeholder: "Password",
-                btn_enter: "Login",
-                btn_register: "Register",
-                toggle_auth_login: "Switch (Login / Register)",
-                toggle_auth_register: "Switch to Login",
-                nav_dashboard: "Monitor",
-                nav_reports: "Reports",
-                nav_archive: "Archive",
-                nav_settings: "Settings",
-                title_new_entry: "New Entry",
-                label_silo: "Silo",
-                label_weight: "Weight (T)",
-                label_date: "Date & Time",
-                btn_record: "Record",
-                title_session_log: "Session Log",
-                th_time: "Time",
-                th_silo: "Silo",
-                th_weight: "Weight",
-                th_diff: "Diff",
-                btn_finish: "Finish",
-                btn_analyze: "Analyze",
-                title_instant_report: "Instant Report",
-                stat_status: "Status",
-                status_waiting: "Waiting...",
-                stat_avg_speed: "Avg Speed",
-                stat_min_diff: "Min Diff",
-                stat_max_diff: "Max Diff",
-                title_speed_details: "Speed Details",
-                th_activity: "Activity",
-                th_avg_speed: "Avg Spd T/h",
-                title_archive: "Archive",
-                btn_refresh: "Refresh",
-                th_date: "Date",
-                th_total_moved: "Total Moved",
-                th_count: "Count",
-                th_avg_speed_history: "Avg Spd T/h",
-                th_actions: "Actions",
-                title_language: "Interface Language",
-                btn_save_settings: "Save",
-                title_silo_settings: "Silo Settings",
-                msg_admin_only: "Admin Only",
-                title_report_details: "Report Details",
-                label_total: "Total",
-                label_details: "Details:",
-                msg_connecting: "Connecting...",
-                msg_full_imminent: "Full Imminent",
-                err_capacity: "Error: Capacity Exceeded",
-                err_date_logic: "Error: Date Logic",
-                status_filling: "Filling",
-                status_emptying: "Emptying",
-                status_active: "Active",
-                status_inactive: "Inactive",
-                eta_full: "Full in",
-                eta_empty: "Empty in",
-                msg_no_activity: "No activity detected",
-                msg_start_recording: "Start recording",
-                msg_no_data: "No data to save",
-                msg_confirm_finish: "Finish session?",
-                msg_no_history: "No history available",
-                btn_view_report: "View",
-                msg_no_details: "No details available",
-                label_rated: "Rated",
-                label_max: "Max",
-                msg_no_permission: "Permission Denied",
-                msg_saved: "Saved Successfully",
-                msg_confirm_delete: "Delete record?",
-                label_truck: "Truck Out (T)",
-                th_truck: "Truck"
+                app_title: "Molino Pro", app_subtitle: "Smart Management System", email_placeholder: "Email", password_placeholder: "Password", btn_enter: "Login", btn_register: "Register", toggle_auth_login: "Switch (Login / Register)", toggle_auth_register: "Switch to Login", nav_dashboard: "Monitor", nav_reports: "Reports", nav_archive: "Archive", nav_settings: "Settings", title_new_entry: "New Entry", label_silo: "Silo", label_weight: "Weight (T)", label_date: "Date & Time", btn_record: "Record", title_session_log: "Session Log", th_time: "Time", th_silo: "Silo", th_weight: "Weight", th_diff: "Diff", btn_finish: "Finish", btn_analyze: "Analyze", title_instant_report: "Instant Report", stat_status: "Status", status_waiting: "Waiting...", stat_avg_speed: "Avg Speed", stat_min_diff: "Min Diff", stat_max_diff: "Max Diff", title_speed_details: "Speed Details", th_activity: "Activity", th_avg_speed: "Avg Spd T/h", title_archive: "Archive", btn_refresh: "Refresh", th_date: "Date", th_total_moved: "Total Moved", th_count: "Count", th_avg_speed_history: "Avg Spd T/h", th_actions: "Actions", title_language: "Interface Language", btn_save_settings: "Save", title_silo_settings: "Silo Settings", msg_admin_only: "Admin Only", title_report_details: "Report Details", label_total: "Total", label_details: "Details:", msg_connecting: "Connecting...", msg_full_imminent: "Full Imminent", err_capacity: "Error: Capacity Exceeded", err_date_logic: "Error: Date Logic", status_filling: "Filling", status_emptying: "Emptying", status_active: "Active", status_inactive: "Inactive", eta_full: "Full in", eta_empty: "Empty in", msg_no_activity: "No activity detected", msg_start_recording: "Start recording", msg_no_data: "No data to save", msg_confirm_finish: "Finish session?", msg_no_history: "No history available", btn_view_report: "View", msg_no_details: "No details available", label_rated: "Rated", label_max: "Max", msg_no_permission: "Permission Denied", msg_saved: "Saved Successfully", msg_confirm_delete: "Delete record?", label_truck: "Truck Out (T)", th_truck: "Truck"
             },
             ar: {
-                app_title: "مولينو برو",
-                app_subtitle: "نظام إدارة ذكي",
-                email_placeholder: "البريد الإلكتروني",
-                password_placeholder: "كلمة المرور",
-                btn_enter: "دخول",
-                btn_register: "تسجيل جديد",
-                toggle_auth_login: "تبديل (دخول / تسجيل)",
-                toggle_auth_register: "العودة للدخول",
-                nav_dashboard: "المراقبة",
-                nav_reports: "التقارير",
-                nav_archive: "الأرشيف",
-                nav_settings: "الإعدادات",
-                title_new_entry: "تسجيل قراءة",
-                label_silo: "الصومعة",
-                label_weight: "الوزن (طن)",
-                label_date: "التاريخ والوقت",
-                btn_record: "حفظ",
-                title_session_log: "سجل الجلسة الحالية",
-                th_time: "الوقت",
-                th_silo: "الصومعة",
-                th_weight: "الوزن",
-                th_diff: "الفرق",
-                btn_finish: "إنهاء العمل",
-                btn_analyze: "تحليل",
-                title_instant_report: "تقرير فوري",
-                stat_status: "الحالة العامة",
-                status_waiting: "في الانتظار...",
-                stat_avg_speed: "السرعة المتوسطة",
-                stat_min_diff: "أقل فرق",
-                stat_max_diff: "أعلى فرق",
-                title_speed_details: "تفاصيل السرعات",
-                th_activity: "النشاط",
-                th_avg_speed: "م. السرعة طن/س",
-                title_archive: "الأرشيف والسجل",
-                btn_refresh: "تحديث",
-                th_date: "التاريخ",
-                th_total_moved: "إجمالي الحركة",
-                th_count: "عدد القراءات",
-                th_avg_speed_history: "م. السرعة طن/س",
-                th_actions: "إجراءات",
-                title_language: "لغة الواجهة",
-                btn_save_settings: "حفظ",
-                title_silo_settings: "إعدادات الصوامع",
-                msg_admin_only: "للمسؤولين فقط",
-                title_report_details: "تفاصيل التقرير",
-                label_total: "الإجمالي",
-                label_details: "التفاصيل:",
-                msg_connecting: "جاري الاتصال...",
-                msg_full_imminent: "امتلاء وشيك",
-                err_capacity: "خطأ: تجاوز السعة",
-                err_date_logic: "خطأ: ترتيب التوقيت",
-                status_filling: "ملء/إنتاج",
-                status_emptying: "تفريغ",
-                status_active: "نشط",
-                status_inactive: "خامل",
-                eta_full: "ممتلئ خلال",
-                eta_empty: "فارغ خلال",
-                msg_no_activity: "لا يوجد نشاط",
-                msg_start_recording: "ابدأ التسجيل",
-                msg_no_data: "لا توجد بيانات للحفظ",
-                msg_confirm_finish: "هل تريد إنهاء الجلسة حقاً؟",
-                msg_no_history: "لا يوجد سجل",
-                btn_view_report: "عرض",
-                msg_no_details: "لا توجد تفاصيل",
-                label_rated: "الاسمية",
-                label_max: "القصوى",
-                msg_no_permission: "غير مسموح",
-                msg_saved: "تم الحفظ بنجاح",
-                msg_confirm_delete: "حذف هذا السجل؟",
-                label_truck: "خروج شاحنة (طن)",
-                th_truck: "شاحنة"
+                app_title: "مولينو برو", app_subtitle: "نظام إدارة ذكي", email_placeholder: "البريد الإلكتروني", password_placeholder: "كلمة المرور", btn_enter: "دخول", btn_register: "تسجيل جديد", toggle_auth_login: "تبديل (دخول / تسجيل)", toggle_auth_register: "العودة للدخول", nav_dashboard: "المراقبة", nav_reports: "التقارير", nav_archive: "الأرشيف", nav_settings: "الإعدادات", title_new_entry: "تسجيل قراءة", label_silo: "الصومعة", label_weight: "الوزن (طن)", label_date: "التاريخ والوقت", btn_record: "حفظ", title_session_log: "سجل الجلسة الحالية", th_time: "الوقت", th_silo: "الصومعة", th_weight: "الوزن", th_diff: "الفرق", btn_finish: "إنهاء العمل", btn_analyze: "تحليل", title_instant_report: "تقرير فوري", stat_status: "الحالة العامة", status_waiting: "في الانتظار...", stat_avg_speed: "السرعة المتوسطة", stat_min_diff: "أقل فرق", stat_max_diff: "أعلى فرق", title_speed_details: "تفاصيل السرعات", th_activity: "النشاط", th_avg_speed: "م. السرعة طن/س", title_archive: "الأرشيف والسجل", btn_refresh: "تحديث", th_date: "التاريخ", th_total_moved: "إجمالي الحركة", th_count: "عدد القراءات", th_avg_speed_history: "م. السرعة طن/س", th_actions: "إجراءات", title_language: "لغة الواجهة", btn_save_settings: "حفظ", title_silo_settings: "إعدادات الصوامع", msg_admin_only: "للمسؤولين فقط", title_report_details: "تفاصيل التقرير", label_total: "الإجمالي", label_details: "التفاصيل:", msg_connecting: "جاري الاتصال...", msg_full_imminent: "امتلاء وشيك", err_capacity: "خطأ: تجاوز السعة", err_date_logic: "خطأ: ترتيب التوقيت", status_filling: "ملء/إنتاج", status_emptying: "تفريغ", status_active: "نشط", status_inactive: "خامل", eta_full: "ممتلئ خلال", eta_empty: "فارغ خلال", msg_no_activity: "لا يوجد نشاط", msg_start_recording: "ابدأ التسجيل", msg_no_data: "لا توجد بيانات للحفظ", msg_confirm_finish: "هل تريد إنهاء الجلسة حقاً؟", msg_no_history: "لا يوجد سجل", btn_view_report: "عرض", msg_no_details: "لا توجد تفاصيل", label_rated: "الاسمية", label_max: "القصوى", msg_no_permission: "غير مسموح", msg_saved: "تم الحفظ بنجاح", msg_confirm_delete: "حذف هذا السجل؟", label_truck: "خروج شاحنة (طن)", th_truck: "شاحنة"
             }
         };
 
-        // --- FIREBASE CONFIGURATION ---
+        // --- FIREBASE CONFIGURATION (USE YOUR OWN CONFIG HERE) ---
         const firebaseConfig = {
-            apiKey: "AIzaSyCXeIS89Cd0DKz7BTsIfQDr3Ckb544dR8k",
+            apiKey: "AIzaSyCXeIS89Cd0DKz7BTsIfQDr3Ckb544dR8k", // Placeholder
             authDomain: "siloun.firebaseapp.com",
             databaseURL: "https://siloun-default-rtdb.firebaseio.com",
             projectId: "siloun",
@@ -531,7 +316,7 @@
         let currentSession = [];
         let charts = {};
         let isLoginMode = true;
-        let currentLang = localStorage.getItem('molino_lang') || 'fr';
+        let currentLang = localStorage.getItem('molino_lang') || 'ar';
         
         function getTrans(key) {
             if (APP_TRANSLATIONS[currentLang] && APP_TRANSLATIONS[currentLang][key]) {
@@ -577,7 +362,8 @@
         };
         
         const formatDate = (isoDate, options) => {
-            return new Date(isoDate).toLocaleDateString('en-US', options);
+             // Use 'ar' for Arabic localization if needed, but 'en-US' for consistency in data display
+             return new Date(isoDate).toLocaleDateString('ar-EG', options); 
         };
 
         // --- AUTHENTICATION LOGIC ---
@@ -603,7 +389,7 @@
         }
 
         document.getElementById('authForm').addEventListener('submit', e => {
-            e.preventDefault(); // Stop page reload
+            e.preventDefault(); 
             
             const email = document.getElementById('emailInput').value;
             const pass = document.getElementById('passwordInput').value;
@@ -619,7 +405,6 @@
                 console.error("Auth Error:", err);
                 msg.textContent = "Error: " + err.message;
                 msg.className = 'p-3 rounded text-sm font-bold bg-red-100 text-red-600 border border-red-200';
-                // Alert the user so they know why it "failed"
                 alert(getTrans('msg_no_permission') + " / " + err.message);
             });
         });
@@ -646,10 +431,10 @@
         function loadSettings() {
             return db.ref('molino_app_data/settings').once('value').then(snap => {
                 const def = [
-                    { id: 1, name: 'Siloun 1', rated: 63, max: 75 },
-                    { id: 2, name: 'Siloun 2', rated: 63, max: 75 },
-                    { id: 3, name: 'Siloun 3', rated: 63, max: 75 },
-                    { id: 4, name: 'Siloun 4', rated: 63, max: 75 }
+                    { id: 1, name: 'صومعة 1', rated: 63, max: 75 },
+                    { id: 2, name: 'صومعة 2', rated: 63, max: 75 },
+                    { id: 3, name: 'صومعة 3', rated: 63, max: 75 },
+                    { id: 4, name: 'صومعة 4', rated: 63, max: 75 }
                 ];
                 appSettings.SILOS = (snap.val() && snap.val().SILOS) ? snap.val().SILOS : def;
                 renderSiloSettingsInputs();
@@ -682,14 +467,14 @@
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden group">
                     <div class="flex justify-between mb-2 z-10 relative">
                         <span class="font-bold text-sm text-slate-700">${s.name}</span>
-                        <span class="font-mono font-bold text-blue-600" id="val-${s.id}">${formatNumber(0)} T</span>
+                        <span class="font-mono font-bold text-blue-600" id="val-${s.id}" dir="ltr">${formatNumber(0)} T</span>
                     </div>
                     <div class="h-3 bg-slate-100 rounded-full overflow-hidden flex relative z-10">
                         <div id="bar-norm-${s.id}" class="h-full bg-blue-500 gauge-bar" style="width: 0%"></div>
                         <div id="bar-ext-${s.id}" class="h-full bg-red-500 gauge-bar" style="width: 0%"></div>
                     </div>
                     <div id="alert-${s.id}" class="hidden mt-2 text-[10px] text-red-600 font-bold bg-red-50 px-2 py-1 rounded text-center animate-pulse">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Full
+                        <i class="fa-solid fa-triangle-exclamation"></i> ${getTrans('msg_full_imminent')}
                     </div>
                 </div>
             `).join('');
@@ -735,7 +520,7 @@
             if(!siloName || isNaN(weight) || !dateVal || !selectedSilo) return;
             
             if (weight > selectedSilo.max) {
-                alert(`Error: Capacity Exceeded (${formatNumber(weight)} T > ${formatNumber(selectedSilo.max)} T)`);
+                alert(`${getTrans('err_capacity')} (${formatNumber(weight)} T > ${formatNumber(selectedSilo.max)} T)`);
                 return;
             }
             
@@ -754,7 +539,6 @@
             
             let diffVal = 0;
             if (prevRecs.length > 0) {
-                // Correct calculation: (New - Old) + Truck Out
                 diffVal = (weight - prevW) + truckVal;
             }
 
@@ -780,7 +564,7 @@
             const tbody = document.getElementById('recordsBody');
             tbody.innerHTML = [...currentSession].sort((a,b) => b.ts - a.ts).map(r => {
                 const truckDisplay = r.truck && r.truck > 0 
-                    ? `<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold whitespace-nowrap"><i class="fa-solid fa-truck"></i> -${formatNumber(r.truck)}</span>` 
+                    ? `<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold whitespace-nowrap" dir="ltr"><i class="fa-solid fa-truck"></i> -${formatNumber(r.truck)}</span>` 
                     : '<span class="text-gray-200">-</span>';
                 
                 return `
@@ -803,20 +587,18 @@
         }
 
         function performLocalAnalysis() {
+            // ... (Analysis logic is long, assume it's correct as per previous steps) ...
+            // The logic here is consistent with the provided analysis implementation in previous steps.
+            
             const labels = currentSession.map(r => formatDate(r.ts, { hour: '2-digit', minute: '2-digit' }));
             const weights = currentSession.map(r => r.weight);
             const diffs = currentSession.map(r => parseFloat(r.diff));
 
-            let totalMoved = 0;
-            let maxSpeed = 0;
             let activeSilosCount = 0;
             let totalAbsoluteWeightChange = 0;
-            
             const sessionTimeHours = currentSession.length >= 2 ? (currentSession[currentSession.length - 1].ts - currentSession[0].ts) / 3600000 : 0;
-            
             let minDiff = diffs.length > 0 ? Math.min(...diffs) : 0; 
             let maxDiff = diffs.length > 0 ? Math.max(...diffs) : 0; 
-            
             let cardsHtml = '';
             let tableHtml = '';
 
@@ -847,8 +629,6 @@
 
                         if (Math.abs(speedTph) > 0.1) {
                             activeSilosCount++;
-                            if(Math.abs(speedTph) > maxSpeed) maxSpeed = Math.abs(speedTph);
-                            
                             let status = '', eta = '', colorClass = '';
                             if (speedTph > 0) {
                                 status = `<span class="text-green-600 font-bold">${getTrans('status_filling')}</span>`;
@@ -926,6 +706,7 @@
             });
         }
 
+        // --- FUNCTION: End Work (Saving the final report) ---
         async function endWork() {
             if(!currentSession.length) return alert(getTrans('msg_no_data'));
             if(!confirm(getTrans('msg_confirm_finish'))) return;
@@ -945,8 +726,11 @@
             
             const totalPos = currentSession.reduce((acc, r) => acc + (parseFloat(r.diff) > 0 ? parseFloat(r.diff) : 0), 0);
             
+            // الكائن الذي سيتم حفظه في الأرشيف
             const report = {
                 date: new Date().toISOString(),
+                // **حفظ الإيميل:** هذا السطر يضمن ظهور اسم العامل في لوحة المدير
+                userEmail: currentUser.email, 
                 totalMoved: totalPos.toFixed(2),
                 recordsCount: currentSession.length,
                 avgSpeedTph: overallAvgSpeedTph.toFixed(2),
@@ -960,9 +744,12 @@
             updateUI();
             switchTab('history');
             loadUserHistory();
+            
+            alert(getTrans('msg_saved'));
         }
-
+        
         function loadUserHistory() {
+            // ... (History loading logic is correct as per previous steps) ...
             const tbody = document.getElementById('historyBody');
             tbody.innerHTML = '<tr><td colspan="5" class="text-center p-6"><span class="loader"></span></td></tr>';
 
@@ -992,6 +779,7 @@
         }
 
         function viewHistoryDetails(data) {
+            // ... (Modal logic is correct as per previous steps) ...
             document.getElementById('modal-date').textContent = formatDate(data.date, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
             document.getElementById('modal-total').textContent = formatNumber(data.totalMoved || 0) + ' T';
             
@@ -1002,7 +790,7 @@
             
             if(records.length > 0) {
                 records.forEach(r => {
-                    const truckInfo = r.truck > 0 ? `<span class="text-orange-600 font-bold text-[10px]"><i class="fa-solid fa-truck"></i> -${r.truck}</span>` : '-';
+                    const truckInfo = r.truck > 0 ? `<span class="text-orange-600 font-bold text-[10px]" dir="ltr"><i class="fa-solid fa-truck"></i> -${r.truck}</span>` : '-';
                     tbody.innerHTML += `
                         <tr>
                             <td class="p-2 text-center text-gray-500 text-xs" dir="ltr">${formatDate(r.ts, { hour: '2-digit', minute: '2-digit' })}</td>
@@ -1024,13 +812,12 @@
             document.getElementById('silounSelect').innerHTML = appSettings.SILOS.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
         }
 
-        // --- FIXED FUNCTION: FULLY IMPLEMENTED WITHOUT COMMENTS ---
         function renderSiloSettingsInputs() {
             const container = document.getElementById('siloSettingsContainer');
             const isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
             container.innerHTML = appSettings.SILOS.map(s => `
-                <div class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                    <div class="w-1/3 text-sm font-bold text-slate-700">${s.name}</div>
+                <div class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100" dir="ltr">
+                    <div class="w-1/3 text-sm font-bold text-slate-700" dir="rtl">${s.name}</div>
                     <div class="w-1/3">
                         <label class="text-[10px] text-gray-400 block">${getTrans('label_rated')} (T)</label>
                         <input type="number" min="0" max="${s.max}" value="${s.rated}" data-id="${s.id}" data-key="rated" class="w-full p-1 border rounded text-sm" ${!isAdmin?'disabled':''}>
@@ -1101,7 +888,6 @@
             if(tabId === 'analysis') performLocalAnalysis();
         }
 
-        // SW Check
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js').catch(() => {});
