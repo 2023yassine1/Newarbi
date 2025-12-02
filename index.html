@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="app_title">Molino Pro - V9.3 (Fixed)</title>
+    <title data-i18n="app_title">Molino Pro - V9.4 (Profile)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -95,7 +95,7 @@
                             <input type="number" id="weightInput" step="0.01" class="w-full p-2.5 border rounded-lg bg-slate-50 outline-none focus:border-blue-500 text-left" placeholder="0.00" dir="ltr">
                         </div>
                         <div class="relative">
-                            <label class="block text-xs font-bold text-orange-500 mb-1"><i class="fa-solid fa-truck-ramp-box"></i> Sortie Camion (T)</label>
+                            <label class="block text-xs font-bold text-orange-500 mb-1"><i class="fa-solid fa-truck-ramp-box"></i> <span data-i18n="label_truck">Sortie Camion (T)</span></label>
                             <input type="number" id="truckInput" step="0.01" class="w-full p-2.5 border rounded-lg bg-orange-50 outline-none focus:border-orange-500 text-left" placeholder="0.00" dir="ltr">
                         </div>
                         <div>
@@ -112,7 +112,7 @@
 
                 <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-200">
                     <div class="p-4 border-b bg-slate-50 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-700" data-i18n="title_session_log">Journal de la session الحالية</h3>
+                        <h3 class="font-bold text-slate-700" data-i18n="title_session_log">Journal de la session</h3>
                         <span id="session-counter" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-bold">0</span>
                     </div>
                     <div class="overflow-x-auto">
@@ -122,7 +122,7 @@
                                     <th class="p-3 text-center" data-i18n="th_time">Heure</th>
                                     <th class="p-3 text-center" data-i18n="th_silo">Silo</th>
                                     <th class="p-3 text-center" data-i18n="th_weight">Poids</th>
-                                    <th class="p-3 text-center"><i class="fa-solid fa-truck text-orange-400"></i></th>
+                                    <th class="p-3 text-center" data-i18n="th_truck">Camion</th>
                                     <th class="p-3 text-center" data-i18n="th_diff">Diff (Prod)</th>
                                     <th class="p-3"></th>
                                 </tr>
@@ -218,6 +218,29 @@
             <div id="view-settings" class="tab-content">
                 
                 <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200 mb-6">
+                    <h3 class="font-bold text-lg mb-4 text-slate-700" data-i18n="title_profile">الملف الشخصي</h3>
+                    <form id="profileForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_firstname">الاسم الأول</label>
+                            <input type="text" id="inputFirstName" class="w-full p-3 border rounded-lg bg-slate-50 outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_lastname">النسب</label>
+                            <input type="text" id="inputLastName" class="w-full p-3 border rounded-lg bg-slate-50 outline-none focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-gray-500 mb-1" data-i18n="label_phone">الهاتف</label>
+                            <input type="tel" id="inputPhone" class="w-full p-3 border rounded-lg bg-slate-50 outline-none focus:border-blue-500" dir="ltr">
+                        </div>
+                        <div class="md:col-span-2 text-right"> 
+                            <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition font-bold shadow-lg shadow-blue-200">
+                                <i class="fa-solid fa-save mx-1"></i> <span data-i18n="btn_save_settings">حفظ</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200 mb-6">
                     <h3 class="font-bold text-lg mb-4 text-slate-700" data-i18n="title_language">Langue de l'interface</h3>
                     <div class="flex items-center gap-4">
                         <select id="languageSelect" class="w-full max-w-xs p-3 border rounded-lg bg-slate-50 outline-none focus:border-blue-500">
@@ -279,7 +302,7 @@
     </div>
 
     <script>
-        // --- TRANSLATION DATA INTEGRATED ---
+        // --- TRANSLATION DATA ---
         const APP_TRANSLATIONS = {
              fr: {
                 app_title: "Molino Pro",
@@ -352,7 +375,13 @@
                 msg_saved: "Sauvegardé avec succès",
                 msg_confirm_delete: "Supprimer cet enregistrement ?",
                 label_truck: "Sortie Camion (T)",
-                th_truck: "Camion"
+                th_truck: "Camion",
+                // Profile
+                title_profile: "Profil Utilisateur",
+                label_firstname: "Prénom",
+                label_lastname: "Nom",
+                label_phone: "Téléphone",
+                msg_profile_saved: "Profil sauvegardé avec succès"
             },
             en: {
                 app_title: "Molino Pro",
@@ -425,7 +454,13 @@
                 msg_saved: "Saved Successfully",
                 msg_confirm_delete: "Delete record?",
                 label_truck: "Truck Out (T)",
-                th_truck: "Truck"
+                th_truck: "Truck",
+                // Profile
+                title_profile: "User Profile",
+                label_firstname: "First Name",
+                label_lastname: "Last Name",
+                label_phone: "Phone Number",
+                msg_profile_saved: "Profile saved successfully"
             },
             ar: {
                 app_title: "مولينو برو",
@@ -498,7 +533,13 @@
                 msg_saved: "تم الحفظ بنجاح",
                 msg_confirm_delete: "حذف هذا السجل؟",
                 label_truck: "خروج شاحنة (طن)",
-                th_truck: "شاحنة"
+                th_truck: "شاحنة",
+                // Profile
+                title_profile: "الملف الشخصي",
+                label_firstname: "الاسم الأول",
+                label_lastname: "النسب",
+                label_phone: "رقم الهاتف",
+                msg_profile_saved: "تم حفظ الملف الشخصي بنجاح"
             }
         };
 
@@ -517,12 +558,8 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
-        // Enable Persistence with proper error handling
         try {
-            firebase.database().enablePersistence().catch(err => {
-                if(err.code === 'failed-precondition') console.warn("Persistence: Multiple tabs open.");
-                else if(err.code === 'unimplemented') console.warn("Persistence: Not supported.");
-            });
+            firebase.database().enablePersistence().catch(err => console.warn("Persistence setup skipped."));
         } catch(e) { console.warn("Persistence setup skipped."); }
 
         const ADMIN_EMAIL = 'koreanarabione@gmail.com'; 
@@ -580,17 +617,15 @@
             return new Date(isoDate).toLocaleDateString('en-US', options);
         };
 
-        // --- AUTHENTICATION LOGIC ---
+        // --- AUTH LOGIC ---
         auth.onAuthStateChanged(user => {
             if (user) {
-                console.log("User logged in:", user.email);
                 currentUser = user;
                 document.getElementById('auth-view').classList.add('hidden');
                 document.getElementById('app-view').classList.remove('hidden');
                 document.getElementById('userEmailDisplay').textContent = user.email;
                 initializeApp();
             } else {
-                console.log("No user logged in");
                 currentUser = null;
                 document.getElementById('auth-view').classList.remove('hidden');
                 document.getElementById('app-view').classList.add('hidden');
@@ -603,8 +638,7 @@
         }
 
         document.getElementById('authForm').addEventListener('submit', e => {
-            e.preventDefault(); // Stop page reload
-            
+            e.preventDefault();
             const email = document.getElementById('emailInput').value;
             const pass = document.getElementById('passwordInput').value;
             const msg = document.getElementById('authMessage');
@@ -616,20 +650,20 @@
             const p = isLoginMode ? auth.signInWithEmailAndPassword(email, pass) : auth.createUserWithEmailAndPassword(email, pass);
             
             p.catch(err => {
-                console.error("Auth Error:", err);
                 msg.textContent = "Error: " + err.message;
                 msg.className = 'p-3 rounded text-sm font-bold bg-red-100 text-red-600 border border-red-200';
-                // Alert the user so they know why it "failed"
                 alert(getTrans('msg_no_permission') + " / " + err.message);
             });
         });
 
         function logout() { auth.signOut(); }
 
+        // --- INIT & PROFILE ---
         async function initializeApp() {
             updateInterfaceLanguage(currentLang);
             await loadSettings();
             await loadSession();
+            await loadUserProfile(); // Load Profile Data
             updateUI();
             updateDateTime();
             
@@ -643,6 +677,57 @@
             setInterval(updateDateTime, 60000);
         }
 
+        // Profile Functions
+        async function saveUserProfile(e) {
+            if(e) e.preventDefault();
+            const firstName = document.getElementById('inputFirstName').value;
+            const lastName = document.getElementById('inputLastName').value;
+            const phone = document.getElementById('inputPhone').value;
+
+            const profileData = {
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                updatedAt: Date.now()
+            };
+
+            try {
+                await db.ref(`molino_app_data/users/${currentUser.uid}/profile`).set(profileData);
+                alert(getTrans('msg_profile_saved'));
+                updateHeaderName(firstName, lastName);
+            } catch (error) {
+                console.error("Error saving profile:", error);
+                alert("Error: " + error.message);
+            }
+        }
+
+        async function loadUserProfile() {
+            try {
+                const snap = await db.ref(`molino_app_data/users/${currentUser.uid}/profile`).once('value');
+                const data = snap.val();
+                if (data) {
+                    document.getElementById('inputFirstName').value = data.firstName || '';
+                    document.getElementById('inputLastName').value = data.lastName || '';
+                    document.getElementById('inputPhone').value = data.phone || '';
+                    updateHeaderName(data.firstName, data.lastName);
+                }
+            } catch (error) {
+                console.error("Error loading profile:", error);
+            }
+        }
+
+        function updateHeaderName(first, last) {
+            const emailDisplay = document.getElementById('userEmailDisplay');
+            if (first || last) {
+                emailDisplay.textContent = `${first || ''} ${last || ''} (${currentUser.email})`;
+                emailDisplay.classList.add('font-bold', 'text-blue-600');
+            } else {
+                emailDisplay.textContent = currentUser.email;
+            }
+        }
+        document.getElementById('profileForm').addEventListener('submit', saveUserProfile);
+
+        // --- DATA LOADING ---
         function loadSettings() {
             return db.ref('molino_app_data/settings').once('value').then(snap => {
                 const def = [
@@ -665,13 +750,13 @@
             });
         }
 
+        // --- UI UPDATES ---
         function updateUI() {
             appSettings.SILOS.forEach(silo => {
                 const recs = currentSession.filter(r => r.silo === silo.name).sort((a,b) => a.ts - b.ts);
                 const lastWeight = recs.length ? parseFloat(recs[recs.length-1].weight) : 0; 
                 updateGauge(silo.id, lastWeight, silo.rated, silo.max);
             });
-            
             document.getElementById('session-counter').textContent = currentSession.length;
             renderRecords();
             performLocalAnalysis();
@@ -720,7 +805,7 @@
             else alertBox.classList.add('hidden');
         }
 
-        // --- FORM SUBMISSION LOGIC ---
+        // --- SUBMISSION LOGIC ---
         document.getElementById('entryForm').addEventListener('submit', async e => {
             e.preventDefault();
             const siloName = document.getElementById('silounSelect').value;
@@ -751,10 +836,8 @@
             }
 
             const prevW = prevRecs.length ? parseFloat(prevRecs[prevRecs.length-1].weight) : 0;
-            
             let diffVal = 0;
             if (prevRecs.length > 0) {
-                // Correct calculation: (New - Old) + Truck Out
                 diffVal = (weight - prevW) + truckVal;
             }
 
@@ -1024,7 +1107,6 @@
             document.getElementById('silounSelect').innerHTML = appSettings.SILOS.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
         }
 
-        // --- FIXED FUNCTION: FULLY IMPLEMENTED WITHOUT COMMENTS ---
         function renderSiloSettingsInputs() {
             const container = document.getElementById('siloSettingsContainer');
             const isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
@@ -1101,7 +1183,6 @@
             if(tabId === 'analysis') performLocalAnalysis();
         }
 
-        // SW Check
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js').catch(() => {});
